@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: tomcat-replica
+  labels:
+    app: tomcat-app-replica
+    type: fibi-base
+
+
+
+
+spec:
+  template:
+    metadata:
+      name: tomcat-pod
+      labels:
+        app: tomcat-app
+        type: fibi-base
+    spec:
+      containers:
+        - name: tomcat-container
+          image: tomcat:9.0.22
+
+
+
+  replicas: 3

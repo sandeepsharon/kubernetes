@@ -1,0 +1,32 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - image: 192.168.1.100:5000/mysql8.0.16:latest
+        name: mysql
+        env:
+
+        - name: MYSQL_ROOT_PASSWORD
+          value: Polus@123
+        - name: MYSQL_DATABASE
+          value: fibismu
+        - name: MYSQL_USER
+          value: fibi
+        - name: MYSQL_PASSWORD
+          value: Polus@123
+        ports:
+        - containerPort: 3306
+          name: mysql
+  replicas: 2

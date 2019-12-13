@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tomcat-replica
+  labels:
+    app: tomcat-app-replica
+    type: fibi-base
+
+
+
+
+spec:
+  template:
+    metadata:
+      name: tomcat-pod
+      labels:
+        app: tomcat-app
+        type: fibi-base
+    spec:
+      containers:
+        - name: tomcat-container
+          image: tomcat:9.0.22
+
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /usr/local/tomcat/webapps/
+              name: data-volume
+      volumes:
+        - name: data-volume
+          hostPath:
+            path: /data
+            type: Directory
+
+
+
+
+
+
+  replicas: 1
+  selector:
+    matchLabels:
+      type: fibi-base
+
+
+    //for podname in $(kubectl get pods -o json| jq -r '.items[].metadata.name' | grep tomcat); do kubectl cp /data/fibi.war "${podname}":/usr/local/tomcat/webapps/; done
